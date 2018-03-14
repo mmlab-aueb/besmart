@@ -1,0 +1,21 @@
+Prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> 
+Prefix iotlite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> 
+Prefix dul: <http://www.loa.istc.cnr.it/ontologies/DUL.owl#> 
+Prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+Prefix time: <http://www.w3.org/2006/time#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix m3-lite: <http://purl.org/iot/vocab/m3-lite#>
+Prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+select ?value 
+where { 
+    ?o a ssn:Observation.
+    ?o ssn:observedBy ?sensorID. 
+    Values ?sensorID {SENSORID}
+    ?o ssn:observationSamplingTime ?t. 
+    ?t time:inXSDDateTime ?datetime. 
+    ?o ssn:observationResult ?or. 
+    ?or ssn:hasValue ?v. 
+    ?v iotlite:hasUnit ?u.
+    ?u rdf:type ?unit.
+    ?v dul:hasDataValue ?value.
+} order by ?datetime
